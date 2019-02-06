@@ -5,9 +5,19 @@ class TyperAnimatedTextKit extends StatefulWidget {
   final TextStyle textStyle;
   final Duration duration;
   final VoidCallback onTap;
+  final AlignmentGeometry alignment;
+  final TextAlign textAlign;
+  final bool isRepeatingAnimation;
 
   const TyperAnimatedTextKit(
-      {Key key, @required this.text, this.textStyle, this.duration, this.onTap})
+      {Key key,
+      @required this.text,
+      this.textStyle,
+      this.duration,
+      this.onTap,
+      this.alignment = AlignmentDirectional.topStart,
+      this.textAlign = TextAlign.start,
+      this.isRepeatingAnimation = true})
       : super(key: key);
 
   @override
@@ -44,7 +54,13 @@ class _TyperState extends State<TyperAnimatedTextKit>
     _controller = new AnimationController(
       duration: _duration,
       vsync: this,
-    )..repeat();
+    );
+
+    if (widget.isRepeatingAnimation) {
+      _controller..repeat();
+    } else {
+      _controller.forward();
+    }
 
     double percentTimeCount = 0.0;
     for (int i = 0; i < widget.text.length; i++) {
@@ -76,23 +92,57 @@ class _TyperState extends State<TyperAnimatedTextKit>
   @override
   Widget build(BuildContext context) {
     for (int i = 0; i < widget.text.length; i++) {
-      textWidgetList.add(AnimatedBuilder(
-        animation: _controller,
-        builder: (BuildContext context, Widget child) {
-          return Opacity(
-            opacity: _fadeOut[i].value,
-            child: Text(
-              widget.text[i].substring(0, _typingText[i].value),
-              style: widget.textStyle,
-            ),
-          );
-        },
-      ));
+      if (i != widget.text.length - 1) {
+        textWidgetList.add(AnimatedBuilder(
+          animation: _controller,
+          builder: (BuildContext context, Widget child) {
+            return Opacity(
+              opacity: _fadeOut[i].value,
+              child: Text(
+                widget.text[i].substring(0, _typingText[i].value),
+                style: widget.textStyle,
+                textAlign: widget.textAlign,
+              ),
+            );
+          },
+        ));
+      } else {
+        if (widget.isRepeatingAnimation) {
+          textWidgetList.add(AnimatedBuilder(
+            animation: _controller,
+            builder: (BuildContext context, Widget child) {
+              return Opacity(
+                opacity: _fadeOut[i].value,
+                child: Text(
+                  widget.text[i].substring(0, _typingText[i].value),
+                  style: widget.textStyle,
+                  textAlign: widget.textAlign,
+                ),
+              );
+            },
+          ));
+        } else {
+          textWidgetList.add(AnimatedBuilder(
+            animation: _controller,
+            builder: (BuildContext context, Widget child) {
+              return Opacity(
+                opacity: 1.0,
+                child: Text(
+                  widget.text[i].substring(0, _typingText[i].value),
+                  style: widget.textStyle,
+                  textAlign: widget.textAlign,
+                ),
+              );
+            },
+          ));
+        }
+      }
     }
 
     return GestureDetector(
       onTap: widget.onTap,
       child: Stack(
+        alignment: widget.alignment,
         children: textWidgetList,
       ),
     );

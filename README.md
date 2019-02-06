@@ -42,7 +42,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  animated_text_kit: ^1.1.1
+  animated_text_kit: ^1.3.0
 ```
 
 ### 2. Install it
@@ -72,10 +72,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 # Usage
 
-You can override the `duration` of each animation by setting duration in each AnimatedTextKit class. For example:
+You can override the `duration` of each animation by setting its duration in each AnimatedTextKit class, also you can set if the animation should not repeat by changing the value of `isRepeatingAnimation` to false. For example:
 ```dart
 FadeAnimatedTextKit(
   duration: Duration(milliseconds: 5000),
+  isRepeatingAnimation: false,
   text: ["do IT!", "do it RIGHT!!", "do it RIGHT NOW!!!"],
   textStyle: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
 );
@@ -101,6 +102,8 @@ Row(
       },
       text: ["AWESOME", "OPTIMISTIC", "DIFFERENT"],
       textStyle: TextStyle(fontSize: 40.0, fontFamily: "Horizon"),
+      textAlign: TextAlign.start,
+      alignment: AlignmentDirectional.topStart // or Alignment.topLeft
     ),
   ],
 );
@@ -127,6 +130,8 @@ SizedBox(
         fontSize: 32.0, 
         fontWeight: FontWeight.bold
     ),
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
   ),
 );
 ```
@@ -152,6 +157,8 @@ SizedBox(
         fontSize: 30.0,
         fontFamily: "Bobbers"
     ),
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
   ),
 );
 ```
@@ -176,6 +183,8 @@ SizedBox(
         fontSize: 30.0,
         fontFamily: "Agne"
     ),
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
   ),
 );
 ```
@@ -200,6 +209,8 @@ SizedBox(
         fontSize: 70.0,
         fontFamily: "Canterbury"
     ),
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
   ),
 );
 ```
@@ -230,10 +241,12 @@ SizedBox(
       Colors.yellow,
       Colors.red,
     ],
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
   ),
 );
 ```
-**Note:** `colors` list should contains at least two values, also `ColorizeAnimationTextKit` can be used for flutter `>=0.5.7` which is available in `dev` channel. 
+**Note:** `colors` list should contains at least two values. 
 
 # Bugs or Requests
 
